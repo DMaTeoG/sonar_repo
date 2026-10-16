@@ -1,0 +1,26 @@
+name: Quality Gate -SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: Analisis SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analisis
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necesario para obtener información de PRs
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Debes agregarlo en los secretos de tu repositorio de GitHub
+        with:
+          args: >
+            -Dsonar.organization=DMaTeoG
+            -Dsonar.projectKey=DMaTeoG/sonar_repo
